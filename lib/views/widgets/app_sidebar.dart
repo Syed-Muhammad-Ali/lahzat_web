@@ -1,0 +1,324 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:lahzat_web/constants/icons.dart';
+import 'package:lahzat_web/constants/images.dart';
+import 'package:lahzat_web/views/pages/dashboard/dashboard_page.dart';
+import '../../constants/colors.dart';
+import 'app_text.dart';
+
+class SidebarPage extends StatefulWidget {
+  const SidebarPage({super.key});
+
+  @override
+  State<SidebarPage> createState() => _SidebarPageState();
+}
+
+class _SidebarPageState extends State<SidebarPage> {
+  final _pages = [
+    Expanded(child: DashboardPage()),
+    const Center(child: Text("Management")),
+    const Center(child: Text("Promo Code")),
+  ];
+
+  int selectedIndex = 0;
+  bool isCollapsed = false; // for tablet sidebar toggle
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+
+        if (width < 700) {
+          return _buildMobileLayout(); // 📱
+        } else if (width < 1100) {
+          return _buildTabletLayout(); // 📲
+        } else {
+          return _buildDesktopLayout(); // 🖥️
+        }
+      },
+    );
+  }
+
+  // ------------------ 📱 MOBILE ------------------
+  Widget _buildMobileLayout() {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColor.primaryColor,
+        title: const AppText("Dashboard"),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu, color: Colors.white),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
+      ),
+      drawer: Drawer(
+        backgroundColor: AppColor.primaryColor,
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(child: _buildSidebarContent(context, isDrawer: true)),
+              _buildLogoutButton(isCollapsed: false),
+            ],
+          ),
+        ),
+      ),
+      body: _pages[selectedIndex],
+    );
+  }
+
+  // ------------------ 📲 TABLET ------------------
+  Widget _buildTabletLayout() {
+    return Scaffold(
+      backgroundColor: AppColor.whiteColor,
+      body: Row(
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: isCollapsed ? 80 : 220,
+            decoration: BoxDecoration(
+              color: AppColor.primaryColor,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: Icon(
+                      isCollapsed
+                          ? Icons.keyboard_double_arrow_right
+                          : Icons.keyboard_double_arrow_left,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      setState(() => isCollapsed = !isCollapsed);
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: _buildSidebarContent(
+                    context,
+                    isCollapsed: isCollapsed,
+                  ),
+                ),
+                _buildLogoutButton(isCollapsed: isCollapsed),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(color: Colors.white, child: _pages[selectedIndex]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ------------------ 🖥️ DESKTOP ------------------
+  Widget _buildDesktopLayout() {
+    return Scaffold(
+      backgroundColor: AppColor.whiteColor,
+      body: Row(
+        children: [
+          Container(
+            width: 250,
+            decoration: BoxDecoration(
+              color: AppColor.primaryColor,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            child: Column(
+              children: [
+                Expanded(child: _buildSidebarContent(context)),
+                _buildLogoutButton(isCollapsed: false),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(color: Colors.white, child: _pages[selectedIndex]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ------------------ COMMON SIDEBAR CONTENT ------------------
+  // Widget _buildSidebarContent(
+  //   BuildContext context, {
+  //   bool isDrawer = false,
+  //   bool isCollapsed = false,
+  // }) {
+  //   return SingleChildScrollView(
+  //     child: Column(
+  //       crossAxisAlignment: isCollapsed
+  //           ? CrossAxisAlignment.center
+  //           : CrossAxisAlignment.start,
+  //       children: [
+  //         const SizedBox(height: 30),
+  //         sideBarTab(AppIcons.dBoard, "Dashboard", 0, isDrawer, isCollapsed),
+  //         sideBarTab(
+  //           AppIcons.product,
+  //           "Manage Events",
+  //           1,
+  //           isDrawer,
+  //           isCollapsed,
+  //         ),
+  //         sideBarTab(AppIcons.promo, "Promo Code", 2, isDrawer, isCollapsed),
+  //       ],
+  //     ),
+  //   );
+  // }
+  Widget _buildSidebarContent(
+    BuildContext context, {
+    bool isDrawer = false,
+    bool isCollapsed = false,
+  }) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: isCollapsed
+            ? CrossAxisAlignment.center
+            : CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+
+          // 🖼️ Add your image / logo at the top
+          Center(
+            child: isCollapsed
+                ? Image.asset(
+                    Appimage.applogo, // your small icon for collapsed mode
+                    height: 120,
+                  )
+                : Column(
+                    children: [
+                      Image.asset(Appimage.applogo, height: 150),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+          ),
+
+          const SizedBox(height: 30),
+
+          // Your navigation items
+          sideBarTab(AppIcons.dBoard, "Dashboard", 0, isDrawer, isCollapsed),
+          sideBarTab(
+            AppIcons.product,
+            "Manage Events",
+            1,
+            isDrawer,
+            isCollapsed,
+          ),
+          sideBarTab(AppIcons.promo, "Promo Code", 2, isDrawer, isCollapsed),
+        ],
+      ),
+    );
+  }
+
+  // ------------------ SIDEBAR TAB ------------------
+  Widget sideBarTab(
+    String icon,
+    String title,
+    int index,
+    bool isDrawer,
+    bool isCollapsed,
+  ) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          selectedIndex = index;
+        });
+        if (isDrawer) Navigator.pop(context);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+        decoration: index == selectedIndex
+            ? BoxDecoration(
+                color: AppColor.whiteColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(8),
+              )
+            : null,
+        child: Row(
+          mainAxisAlignment: isCollapsed
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
+          children: [
+            SvgPicture.asset(
+              icon,
+              color: AppColor.whiteColor,
+              height: 20,
+              width: 20,
+            ),
+            if (!isCollapsed) ...[
+              const SizedBox(width: 12),
+              AppText(title, color: AppColor.whiteColor, fontSize: 13),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ------------------ LOGOUT BUTTON ------------------
+  Widget _buildLogoutButton({required bool isCollapsed}) {
+    return InkWell(
+      onTap: _handleLogout,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.15),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisAlignment: isCollapsed
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
+          children: [
+            SvgPicture.asset(
+              AppIcons.logout,
+              color: AppColor.whiteColor,
+              height: 20,
+              width: 20,
+            ),
+            if (!isCollapsed) ...[
+              const SizedBox(width: 12),
+              const AppText("Logout", color: AppColor.whiteColor, fontSize: 13),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _handleLogout() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Confirm Logout"),
+        content: const Text("Are you sure you want to log out?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // TODO: implement your logout logic here (e.g. navigate to login)
+              debugPrint("User logged out!");
+            },
+            child: const Text("Logout"),
+          ),
+        ],
+      ),
+    );
+  }
+}
