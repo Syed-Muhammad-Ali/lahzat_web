@@ -174,14 +174,18 @@ class EventTableRow extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: onMorePressed,
+                alignment: Alignment.topCenter,
+                child: PopupMenuButton<String>(
                   icon: const Icon(
                     Icons.more_vert,
                     size: 20,
-                    color: Colors.black54,
+                    color: AppColor.black,
                   ),
+                  color: AppColor.whiteColor,
+                  itemBuilder: (context) => const [
+                    PopupMenuItem(value: 'edit', child: Text('Edit')),
+                    PopupMenuItem(value: 'delete', child: Text('Delete')),
+                  ],
                 ),
               ),
             ),

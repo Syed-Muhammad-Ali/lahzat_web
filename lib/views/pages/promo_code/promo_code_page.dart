@@ -12,6 +12,7 @@ import 'package:lahzat_web/views/widgets/app_container.dart';
 import 'package:lahzat_web/views/widgets/app_pagination.dart';
 import 'package:lahzat_web/views/widgets/app_text.dart';
 import 'package:lahzat_web/views/widgets/app_textfield.dart';
+import 'package:lahzat_web/views/widgets/custom_dialog_box.dart';
 import 'package:lahzat_web/views/widgets/extension_sizebox.dart';
 
 class PromoCodePage extends StatefulWidget {
@@ -137,9 +138,11 @@ class _PromoCodePageState extends State<PromoCodePage> {
                             ],
                           ),
                           AppButton(
-                            width: context.w * 0.13,
+                            width: context.w * 0.16,
                             height: 50,
-                            ontap: () {},
+                            ontap: () {
+                              CustomDialogBox(context);
+                            },
                             rowElements: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -160,7 +163,8 @@ class _PromoCodePageState extends State<PromoCodePage> {
                             // label: 'Sign in',
                             // txtClr: AppColors.white,
                             // txtSize: 16,
-                            backgroundColor: AppColor.primaryColor,
+                            bgColor: AppColor.primaryColor,
+                            label: '',
                           ),
                         ],
                       ),
@@ -340,6 +344,3 @@ class _PromoCodePageState extends State<PromoCodePage> {
     );
   }
 }
-
-
-

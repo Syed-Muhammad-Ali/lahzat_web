@@ -12,4 +12,7 @@ class AppIcons {
   static const String downArrow = 'assets/icons/downArrow.svg';
   static const String add = 'assets/icons/add.svg';
   static const String customCalender = 'assets/icons/custom_calender.svg';
+  static const String calender = 'assets/icons/calender.svg';
+  static const String clock = 'assets/icons/clock.svg';
+  static const String upload = 'assets/icons/upload.svg';
 }

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lahzat_web/views/widgets/app_text.dart';
 
-import '../../constants/colors.dart';
-
 class AppTextfield extends StatefulWidget {
   Widget? prefixIcon;
   Widget? suffixIcon;
@@ -36,7 +34,7 @@ class AppTextfield extends StatefulWidget {
   double? titleSize;
   TextCapitalization? textCapitalization;
   bool? useCountFormater;
-  bool showStar; 
+  bool showStar;
 
   AppTextfield({
     super.key,
@@ -196,16 +194,10 @@ class _AppTextfieldState extends State<AppTextfield> {
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
                 ),
-                focusedBorder: border(
-                  widget.borderColor ?? AppColor.primaryColor,
-                ),
-                errorBorder: border(
-                  widget.borderColor ?? const Color(0xff999999),
-                ),
-                enabledBorder: border(
-                  widget.borderColor ?? const Color(0xff999999),
-                ),
-                border: border(widget.borderColor ?? const Color(0xff999999)),
+                focusedBorder: border(widget.borderColor ?? Colors.transparent),
+                errorBorder: border(widget.borderColor ?? Colors.transparent),
+                enabledBorder: border(widget.borderColor ?? Colors.transparent),
+                border: border(widget.borderColor ?? Colors.transparent),
               ),
             ),
           ),

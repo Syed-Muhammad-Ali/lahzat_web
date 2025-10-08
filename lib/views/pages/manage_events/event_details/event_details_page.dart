@@ -145,7 +145,7 @@ class _EventDetailsPageState extends State<EventDetailsPage>
                           Row(
                             children: [
                               AppButton(
-                                width: context.w * 0.15,
+                                width: context.w * 0.17,
                                 height: 50,
                                 radius: 16,
                                 ontap: () {},
@@ -169,11 +169,11 @@ class _EventDetailsPageState extends State<EventDetailsPage>
                                 // label: 'Sign in',
                                 // txtClr: AppColors.white,
                                 // txtSize: 16,
-                                backgroundColor: AppColor.primaryColor,
+                                bgColor: AppColor.primaryColor,
                               ),
                               2.wSpace(context),
                               AppButton(
-                                width: context.w * 0.1,
+                                width: context.w * 0.12,
                                 height: 50,
                                 radius: 16,
                                 ontap: () {},
@@ -186,7 +186,7 @@ class _EventDetailsPageState extends State<EventDetailsPage>
                                       width: 17,
                                       height: 17,
                                     ),
-                                    0.5.wSpace(context),
+                                    0.2.wSpace(context),
                                     AppText(
                                       "Edit Details",
                                       fontSize: 14,
@@ -196,7 +196,7 @@ class _EventDetailsPageState extends State<EventDetailsPage>
                                   ],
                                 ),
 
-                                backgroundColor: AppColor.secondaryColor,
+                                bgColor: AppColor.secondaryColor,
                               ),
                             ],
                           ),

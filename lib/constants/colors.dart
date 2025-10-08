@@ -18,4 +18,6 @@ class AppColor {
   static const darkYellow = Color(0xFFF39F1E);
   static const darkred = Color(0xFFFF1100);
   static const filledColor = Color(0xFFEBEBEB);
+  static const secondryTextColor = Color(0xFF797979);
+  static const skyblue = Color(0xFFE8EDF2);
 }

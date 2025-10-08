@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/constants/icons.dart';
 import 'package:lahzat_web/models/manage_event_model.dart';
+import 'package:lahzat_web/views/pages/create_new_event/create_new_event_page.dart';
 import 'package:lahzat_web/views/pages/manage_events/components/event_table.dart';
 import 'package:lahzat_web/views/pages/manage_events/event_details/event_details_page.dart';
 import 'package:lahzat_web/views/pages/sideBar/sideBar_page.dart';
@@ -125,9 +126,15 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                             ],
                           ),
                           AppButton(
-                            width: context.w * 0.13,
+                            width: context.w * 0.16,
                             height: 50,
-                            ontap: () {},
+                            ontap: () {
+                              final sidebarState = context
+                                  .findAncestorStateOfType<SidebarPageState>();
+                              sidebarState?.openChildPage(
+                                const CreateNewEventPage(),
+                              );
+                            },
                             rowElements: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -148,7 +155,7 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                             // label: 'Sign in',
                             // txtClr: AppColors.white,
                             // txtSize: 16,
-                            backgroundColor: AppColor.primaryColor,
+                            bgColor: AppColor.primaryColor,
                           ),
                         ],
                       ),
@@ -190,13 +197,13 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                                     ),
                                     Spacer(),
 
-                                    Expanded(
+                                    SizedBox(
+                                      width: 185,
                                       child: AppTextfield(
-                                        width: 85,
                                         ctr: TextEditingController(),
                                         hint: 'Custom',
                                         filledColor: AppColor.filledColor,
-                                        prefixIcon: Padding(
+                                        suffixIcon: Padding(
                                           padding: const EdgeInsets.all(10),
                                           child: SvgPicture.asset(
                                             AppIcons.customCalender,

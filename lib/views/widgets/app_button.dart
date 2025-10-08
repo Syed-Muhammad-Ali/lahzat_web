@@ -1,85 +1,125 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lahzat_web/views/widgets/app_text.dart';
 
-class AppButton extends StatelessWidget {
-  Color? txtClr;
-  String? label;
-  VoidCallback? ontap;
-  Row? rowElements;
-  double? height;
-  double? width;
-  double? txtSize;
-  double? radius;
-  FontWeight? weight;
-  EdgeInsets? padding;
-  final Color? backgroundColor;
-  final Gradient? gradient;
-  bool loading;
-  final Border? border;
-  final List<BoxShadow>? boxShadow;
+import '../../constants/colors.dart';
 
-  AppButton({
+class AppButton extends StatelessWidget {
+  final String? label;
+  final VoidCallback? ontap;
+  final Row? rowElements;
+  final Color? bgColor;
+  final Color? borderColor;
+  final Color? txtClr;
+  final double? height;
+  final double? width;
+  final double? txtSize;
+  final double? radius;
+  final bool useborder;
+  final FontWeight? weight;
+  final EdgeInsets? padding;
+  final bool? isElevation;
+
+  const AppButton({
     super.key,
     this.label,
     this.ontap,
     this.rowElements,
+    this.bgColor,
+    this.borderColor,
     this.txtClr,
     this.height,
     this.radius,
     this.width,
-    this.txtSize = 18,
+    this.txtSize,
     this.weight,
     this.padding,
-    this.backgroundColor,
-    this.gradient,
-    this.loading = false,
-    this.border,
-    this.boxShadow,
+    this.isElevation = true,
+    this.useborder = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: ontap,
-      child: Container(
-        height: height ?? 46,
-        width: width ?? Get.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius ?? 12),
-          color: backgroundColor,
-          gradient: gradient,
-          border: border,
-          boxShadow: boxShadow,
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    // 🧩 Define responsive breakpoints
+    final bool isMobile = screenWidth < 600;
+    final bool isTablet = screenWidth >= 600 && screenWidth < 1100;
+    final bool isDesktop = screenWidth >= 1100;
+
+    // 🧮 Compute responsive sizing
+    final double responsiveHeight =
+        height ??
+        (isMobile
+            ? 48
+            : isTablet
+            ? 56
+            : 60);
+    final double responsiveFontSize =
+        txtSize ??
+        (isMobile
+            ? 14
+            : isTablet
+            ? 15
+            : 16);
+    final double responsiveRadius =
+        radius ??
+        (isMobile
+            ? 10
+            : isTablet
+            ? 12
+            : 14);
+
+    return Padding(
+      padding:
+          padding ??
+          EdgeInsets.symmetric(
+            vertical: isMobile ? 8 : 10,
+            horizontal: isMobile ? 4 : 6,
+          ),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          elevation: WidgetStateProperty.all(
+            (isElevation ?? true) ? (isMobile ? 1 : 2) : 0,
+          ),
+          backgroundColor: WidgetStateProperty.all(
+            bgColor ?? AppColor.primaryColor,
+          ),
+          side: WidgetStateProperty.all(
+            useborder
+                ? BorderSide(
+                    color: borderColor ?? bgColor ?? AppColor.primaryColor,
+                    width: 2,
+                  )
+                : BorderSide.none,
+          ),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(responsiveRadius),
+            ),
+          ),
+          fixedSize: WidgetStateProperty.all(
+            Size(
+              width ??
+                  (isDesktop
+                      ? 220
+                      : isTablet
+                      ? 200
+                      : double.infinity),
+              responsiveHeight,
+            ),
+          ),
         ),
-        child: Center(
-          child:
-              // loading
-              //     ? Center(
-              //         child: SleekCircularSlider(
-              //           appearance: CircularSliderAppearance(
-              //             spinnerMode: true,
-              //             customColors: CustomSliderColors(
-              //               trackColor: AppColors.grey,
-              //               progressBarColor: AppColors.white,
-              //               shadowColor: AppColors.white,
-              //               shadowMaxOpacity: 0.5,
-              //             ),
-              //             size: 30,
-              //           ),
-              //         ),
-              //       )
-              //     :
-              rowElements ??
-              AppText(
-                label ?? "",
-                textAlign: TextAlign.center,
-                textOverflow: TextOverflow.ellipsis,
-                color: txtClr ?? Colors.white,
-                fontSize: txtSize,
-                fontWeight: weight ?? FontWeight.w500,
-              ),
-        ),
+        onPressed: ontap,
+        child:
+            rowElements ??
+            AppText(
+              label ?? "",
+              textAlign: TextAlign.center,
+              textOverflow: TextOverflow.ellipsis,
+              color: txtClr ?? Colors.white,
+              fontSize: responsiveFontSize,
+              fontWeight: weight ?? FontWeight.w600,
+            ),
       ),
     );
   }

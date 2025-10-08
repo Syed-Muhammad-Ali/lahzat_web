@@ -113,7 +113,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                     label: 'Download QR Code',
                                     txtClr: AppColor.whiteColor,
                                     txtSize: 14,
-                                    backgroundColor: AppColor.primaryColor,
+                                    bgColor: AppColor.primaryColor,
                                   ),
                                 ],
                               ),
