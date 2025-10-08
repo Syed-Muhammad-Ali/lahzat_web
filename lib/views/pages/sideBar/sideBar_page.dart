@@ -14,10 +14,10 @@ class SidebarPage extends StatefulWidget {
   const SidebarPage({super.key});
 
   @override
-  State<SidebarPage> createState() => _SidebarPageState();
+  State<SidebarPage> createState() => SidebarPageState();
 }
 
-class _SidebarPageState extends State<SidebarPage> {
+class SidebarPageState extends State<SidebarPage> {
   final _pages = [DashboardPage(), ManageEventsPage(), PromoCodePage()];
 
   int selectedIndex = 0;

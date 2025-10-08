@@ -6,6 +6,8 @@ import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/constants/icons.dart';
 import 'package:lahzat_web/models/manage_event_model.dart';
 import 'package:lahzat_web/views/pages/manage_events/components/event_table.dart';
+import 'package:lahzat_web/views/pages/manage_events/event_details/event_details_page.dart';
+import 'package:lahzat_web/views/pages/sideBar/sideBar_page.dart';
 import 'package:lahzat_web/views/widgets/app_bar.dart';
 import 'package:lahzat_web/views/widgets/app_button.dart';
 import 'package:lahzat_web/views/widgets/app_container.dart';
@@ -280,15 +282,15 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                                       index: index,
                                       event: pageItems[index],
                                       onMorePressed: () {},
-                                      // onTap: () {
-                                      //   // final sidebarState = context
-                                      //   //     .findAncestorStateOfType<
-                                      //   //       SideBarPageState
-                                      //   //     >();
-                                      //   // sidebarState?.openChildPage(
-                                      //   //   const BookingsDetailsPage(),
-                                      //   // );
-                                      // },
+                                      onTap: () {
+                                        final sidebarState = context
+                                            .findAncestorStateOfType<
+                                              SidebarPageState
+                                            >();
+                                        sidebarState?.openChildPage(
+                                          const EventDetailsPage(),
+                                        );
+                                      },
                                     );
                                   },
                                 ),
