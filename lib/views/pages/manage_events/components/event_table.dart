@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/models/manage_event_model.dart';
+import 'package:lahzat_web/views/pages/create_new_event/create_new_event_page.dart';
 import 'package:lahzat_web/views/widgets/app_text.dart';
+import 'package:lahzat_web/views/widgets/delete_Confirmation_Popup.dart';
+
+import '../../sideBar/sideBar_page.dart';
 
 class EventTableRow extends StatelessWidget {
   final UserItem event;
@@ -182,9 +187,28 @@ class EventTableRow extends StatelessWidget {
                     color: AppColor.black,
                   ),
                   color: AppColor.whiteColor,
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(value: 'edit', child: Text('Edit')),
-                    PopupMenuItem(value: 'delete', child: Text('Delete')),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      onTap: () {
+                        final sidebarState = context
+                            .findAncestorStateOfType<SidebarPageState>();
+                        if (sidebarState != null) {
+                          sidebarState.openChildPage(
+                            CreateNewEventPage(event: event),
+                          );
+                          sidebarState.selectedIndex = 1;
+                        }
+                      },
+                      value: 'edit',
+                      child: Text('Edit'),
+                    ),
+                    PopupMenuItem(
+                      value: 'delete',
+                      child: Text('Delete'),
+                      onTap: () {
+                        DeleteConfirdationPopup(context);
+                      },
+                    ),
                   ],
                 ),
               ),

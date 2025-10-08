@@ -5,7 +5,7 @@ import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/views/widgets/app_button.dart';
 import 'package:lahzat_web/views/widgets/app_text.dart';
 
-void ConfirmationPopup(BuildContext context) {
+void DeleteConfirdationPopup(BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: true,
@@ -60,7 +60,7 @@ void ConfirmationPopup(BuildContext context) {
 
                           // --- Title ---
                           AppText(
-                            "Save your changes?",
+                            "Delete the event?",
                             fontSize: isMobile ? 20 : 22,
                             fontWeight: FontWeight.w600,
                             color: AppColor.black,
@@ -70,7 +70,7 @@ void ConfirmationPopup(BuildContext context) {
 
                           // --- Description ---
                           const AppText(
-                            "You’ve made changes to your memories.\nWould you like to save these updates or cancel to go back?",
+                            "Are you sure you want to delete this event? This\naction cannot be undone. Please confirm your\nchoice.",
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
                             color: Colors.black87,
@@ -85,16 +85,16 @@ void ConfirmationPopup(BuildContext context) {
                               Expanded(
                                 child: AppButton(
                                   label: "Cancel",
-                                  txtClr: AppColor.primaryColor,
                                   bgColor: Colors.grey.shade300,
+                                  txtClr: AppColor.primaryColor,
                                   ontap: () => Navigator.pop(context),
                                 ),
                               ),
                               const SizedBox(width: 16),
                               Expanded(
                                 child: AppButton(
-                                  label: "Save",
-                                  bgColor: AppColor.primaryColor,
+                                  label: "Delete",
+                                  bgColor: AppColor.darkred,
                                   ontap: () {
                                     // TODO: handle save logic
                                     Navigator.pop(context);

@@ -17,8 +17,13 @@ import 'package:lahzat_web/views/widgets/image_picker_container.dart';
 import 'package:lahzat_web/views/widgets/language_toggle.dart';
 import 'package:lahzat_web/views/widgets/photo_selctor.dart';
 
+import '../../../models/manage_event_model.dart';
+import '../../widgets/app_bar.dart';
+import '../../widgets/delete_Confirmation_Popup.dart';
+
 class CreateNewEventPage extends StatelessWidget {
-  const CreateNewEventPage({super.key});
+  final UserItem? event;
+  const CreateNewEventPage({super.key, this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +42,7 @@ class CreateNewEventPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// ---------- HEADER ----------
-                  _buildHeader(isMobile),
+                  AppBarWidgets(),
 
                   const SizedBox(height: 20),
                   IconButton(
@@ -112,38 +117,84 @@ class CreateNewEventPage extends StatelessWidget {
                             const SizedBox(height: 30),
 
                             /// ---------- BOTTOM BUTTONS ----------
-                            Row(
-                              children: [
-                                const Spacer(),
-                                Expanded(
-                                  child: AppButton(
-                                    ontap: () {
-                                      CustomDialogBox(context);
-                                    },
-                                    label: 'Cancel',
-                                    bgColor: AppColor.secondryTextColor
-                                        .withOpacity(0.20),
+                            event == null
+                                ? Row(
+                                    children: [
+                                      const Spacer(),
+                                      Expanded(
+                                        child: AppButton(
+                                          ontap: () {
+                                            CustomDialogBox(context);
+                                          },
+                                          label: 'Cancel',
+                                          bgColor: AppColor.secondryTextColor
+                                              .withOpacity(0.20),
 
-                                    height: 55,
-                                    radius: 8,
+                                          height: 55,
+                                          radius: 8,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      Expanded(
+                                        child: AppButton(
+                                          ontap: () {
+                                            ConfirmationPopup(context);
+                                          },
+                                          label: 'Create Event',
+                                          bgColor: AppColor.primaryColor,
+                                          txtClr: AppColor.whiteColor,
+                                          height: 55,
+                                          radius: 8,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                    ],
+                                  )
+                                : Row(
+                                    children: [
+                                      const Spacer(),
+                                      Expanded(
+                                        child: AppButton(
+                                          ontap: () {
+                                            CustomDialogBox(context);
+                                          },
+                                          label: 'Cancel',
+                                          bgColor: AppColor.secondryTextColor
+                                              .withOpacity(0.20),
+
+                                          height: 55,
+                                          radius: 8,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      Expanded(
+                                        child: AppButton(
+                                          ontap: () {
+                                            DeleteConfirdationPopup(context);
+                                          },
+                                          label: 'Delete Event',
+                                          bgColor: AppColor.darkred,
+                                          txtClr: AppColor.whiteColor,
+                                          height: 55,
+                                          radius: 8,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      Expanded(
+                                        child: AppButton(
+                                          ontap: () {
+                                            ConfirmationPopup(context);
+                                          },
+                                          label: 'Update Event Details',
+                                          bgColor: AppColor.primaryColor,
+                                          txtClr: AppColor.whiteColor,
+                                          height: 55,
+                                          radius: 8,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                    ],
                                   ),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: AppButton(
-                                    ontap: () {
-                                      ConfirmationPopup(context);
-                                    },
-                                    label: 'Create Event',
-                                    bgColor: AppColor.primaryColor,
-                                    txtClr: AppColor.whiteColor,
-                                    height: 55,
-                                    radius: 8,
-                                  ),
-                                ),
-                                const Spacer(),
-                              ],
-                            ),
                           ],
                         ),
                       ),
@@ -311,28 +362,32 @@ class CreateNewEventPage extends StatelessWidget {
         const SizedBox(height: 16),
         ImagepickerContainer(),
         const SizedBox(height: 16),
-        AppText(
-          'Payment',
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-          color: AppColor.black,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(child: AppButton(label: 'Paid')),
-            const SizedBox(width: 16),
-            Expanded(
-              child: AppButton(
-                label: 'Pending',
-                bgColor: AppColor.bgColor,
-                borderColor: AppColor.secondryTextColor,
-                txtClr: AppColor.secondryTextColor,
-              ),
-            ),
-            const Spacer(),
-          ],
-        ),
+        event == null
+            ? AppText(
+                'Payment',
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppColor.black,
+              )
+            : SizedBox(),
+        event == null
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(child: AppButton(label: 'Paid')),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: AppButton(
+                      label: 'Pending',
+                      bgColor: AppColor.bgColor,
+                      borderColor: AppColor.secondryTextColor,
+                      txtClr: AppColor.secondryTextColor,
+                    ),
+                  ),
+                  const Spacer(),
+                ],
+              )
+            : SizedBox(),
       ],
     );
   }

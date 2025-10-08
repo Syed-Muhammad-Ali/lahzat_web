@@ -129,11 +129,19 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                             width: context.w * 0.16,
                             height: 50,
                             ontap: () {
+                              // final sidebarState = context
+                              //     .findAncestorStateOfType<SidebarPageState>();
+                              // sidebarState?.openChildPage(
+                              //   const CreateNewEventPage(),
+                              // );
                               final sidebarState = context
                                   .findAncestorStateOfType<SidebarPageState>();
-                              sidebarState?.openChildPage(
-                                const CreateNewEventPage(),
-                              );
+                              if (sidebarState != null) {
+                                sidebarState.openChildPage(
+                                  CreateNewEventPage(),
+                                );
+                                sidebarState.selectedIndex = 1;
+                              }
                             },
                             rowElements: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
