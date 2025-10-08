@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/views/widgets/app_text.dart';
 
-
-
-
-
 class AppPagination extends StatelessWidget {
   final int currentPage;
   final int totalPages;
@@ -102,28 +98,37 @@ class AppPagination extends StatelessWidget {
 
           Row(
             children: [
-              DropdownButton<int>(
-                iconEnabledColor: AppColor.primaryColor,
-                value: 10,
-                items: [10, 25, 50].map((value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: AppText(
-                      '$value',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: AppColor.primaryColor,
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {},
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                decoration: BoxDecoration(
+                  color: AppColor.primaryColor,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<int>(
+                    value: 10,
+                    dropdownColor: AppColor.primaryColor,
+                    iconEnabledColor: Colors.white,
+                    items: [10, 25, 50].map((value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: AppText(
+                          '$value',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {},
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
               AppText(
                 'items per page',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-
                 color: AppColor.black,
               ),
             ],

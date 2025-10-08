@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lahzat_web/constants/colors.dart';
+import 'package:lahzat_web/models/manage_event_model.dart';
 import 'package:lahzat_web/views/widgets/app_text.dart';
 
 class EventTableRow extends StatelessWidget {
@@ -189,26 +190,4 @@ class EventTableRow extends StatelessWidget {
       ),
     );
   }
-}
-
-class UserItem {
-  final int sl;
-  final String name;
-  final String phone;
-  final String avatar;
-  final String date;
-  final String category;
-  final String paymentStatus;
-  final String eventStatus;
-
-  UserItem({
-    required this.sl,
-    required this.name,
-    required this.phone,
-    required this.avatar,
-    required this.date,
-    required this.category,
-    required this.paymentStatus,
-    required this.eventStatus,
-  });
 }

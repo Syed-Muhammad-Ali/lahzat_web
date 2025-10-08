@@ -64,6 +64,7 @@ class AppText extends StatelessWidget {
     this.color,
     this.fontWeight,
     this.textAlign = TextAlign.start,
+    this.decorationColor,
   });
 
   final String text;
@@ -77,6 +78,7 @@ class AppText extends StatelessWidget {
   final Color? color;
   final int? maxLines;
   final FontWeight? fontWeight;
+  final Color? decorationColor;
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +107,7 @@ class AppText extends StatelessWidget {
             fontWeight: fontWeight,
             fontSize: responsiveFontSize,
             color: color ?? Colors.white,
+            decorationColor: decorationColor,
           ),
         );
       },

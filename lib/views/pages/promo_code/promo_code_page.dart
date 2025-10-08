@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/constants/icons.dart';
-import 'package:lahzat_web/models/manage_event_model.dart';
-import 'package:lahzat_web/views/pages/manage_events/components/event_table.dart';
+import 'package:lahzat_web/models/promo_code_model.dart';
+import 'package:lahzat_web/views/pages/promo_code/components/promoTableRow.dart';
 import 'package:lahzat_web/views/widgets/app_bar.dart';
 import 'package:lahzat_web/views/widgets/app_button.dart';
 import 'package:lahzat_web/views/widgets/app_container.dart';
@@ -14,81 +14,95 @@ import 'package:lahzat_web/views/widgets/app_text.dart';
 import 'package:lahzat_web/views/widgets/app_textfield.dart';
 import 'package:lahzat_web/views/widgets/extension_sizebox.dart';
 
-class ManageEventsPage extends StatefulWidget {
-  const ManageEventsPage({super.key});
+class PromoCodePage extends StatefulWidget {
+  const PromoCodePage({super.key});
 
   @override
-  State<ManageEventsPage> createState() => _ManageEventsPageState();
+  State<PromoCodePage> createState() => _PromoCodePageState();
 }
 
-class _ManageEventsPageState extends State<ManageEventsPage> {
+class _PromoCodePageState extends State<PromoCodePage> {
   static const int rowsPerPage = 6;
   int currentPage = 1;
   String searchQuery = '';
-  List<UserItem> allUsers = List.generate(
-    30,
-    (i) => UserItem(
-      sl: i + 1,
-      name: [
-        "Sara & Ali’s Wedding",
-        "Kevin & Lila’s Baby Shower",
-        "Rachel & Noah’s Graduation Party",
-        "Marcus & Hannah’s Anniversary",
-        "Megan & Josh’s Housewarming",
-        "Jonas & Emily’s Engagement",
-      ][i % 6],
-      phone: "+972 545635282",
-      avatar: "https://picsum.photos/200/200?random=${(i % 6) + 1}",
-      date: [
-        "2023-02-16 \n11:00AM",
-        "2023-05-21 \n2:00PM",
-        "2023-06-15 \n4:00PM",
-        "2023-04-05 \n6:30PM",
-        "2023-07-30 \n5:00PM",
-        "2023-03-10 \n7:00PM",
-      ][i % 6],
-      category: [
-        "Wedding",
-        "Baby Shower",
-        "Graduation",
-        "Anniversary",
-        "Housewarming",
-        "Engagement",
-      ][i % 6],
-      paymentStatus: i % 2 == 0 ? "Paid" : "Pending",
-      eventStatus: [
-        "Upcoming",
-        "Completed",
-        "Cancelled",
-        "Completed",
-        "Completed",
-        "Completed",
-      ][i % 6],
-    ),
-  );
 
-  List<UserItem> get filteredUsers {
-    if (searchQuery.isEmpty) return allUsers;
-    return allUsers
+  List<PromoCodeItem> basePromoCodes = [
+    PromoCodeItem(
+      title: "Winter Sale",
+      code: "WINTER25",
+      generationDate: "2023-03-22\n5:00PM",
+      validUntil: "2023-03-15\n9:00AM",
+      discount: "\$5.00\nFixed",
+      status: "Inactive",
+    ),
+    PromoCodeItem(
+      title: "Summer Savings",
+      code: "SUMMER15",
+      generationDate: "2023-06-30\n11:59PM",
+      validUntil: "2023-06-01\n10:00AM",
+      discount: "20%\nPercentage",
+      status: "Active",
+    ),
+    PromoCodeItem(
+      title: "Valentine's Day Special",
+      code: "VDAY15",
+      generationDate: "2024-02-14\n11:59PM",
+      validUntil: "2024-02-14\n9:00AM",
+      discount: "\$6.00\nFixed",
+      status: "Active",
+    ),
+    PromoCodeItem(
+      title: "Holiday Cheer",
+      code: "CHEER25",
+      generationDate: "2023-12-25\n11:59PM",
+      validUntil: "2023-12-01\n12:00AM",
+      discount: "\$7.00\nFixed",
+      status: "Active",
+    ),
+    PromoCodeItem(
+      title: "New Year, New You",
+      code: "NEWYOU10",
+      generationDate: "2024-01-31\n11:59PM",
+      validUntil: "2024-01-01\n12:00AM",
+      discount: "20%\nPercentage",
+      status: "Inactive",
+    ),
+    PromoCodeItem(
+      title: "Back to School",
+      code: "SCHOOL30",
+      generationDate: "2023-09-15\n10:00PM",
+      validUntil: "2023-08-15\n8:00AM",
+      discount: "\$10.00\nFixed",
+      status: "Active",
+    ),
+  ];
+
+  List<PromoCodeItem> get allPromoCodes =>
+      List.generate(30, (i) => basePromoCodes[i % basePromoCodes.length]);
+
+  List<PromoCodeItem> get filteredPromoCodes {
+    if (searchQuery.isEmpty) return allPromoCodes;
+    return allPromoCodes
         .where(
-          (user) => user.name.toLowerCase().contains(searchQuery.toLowerCase()),
-          // ||
-          // user.email.toLowerCase().contains(searchQuery.toLowerCase()),
+          (code) =>
+              code.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
+              code.code.toLowerCase().contains(searchQuery.toLowerCase()),
         )
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    final totalPages = (filteredUsers.length / rowsPerPage).ceil();
+    final totalPages = (filteredPromoCodes.length / rowsPerPage).ceil();
     final start = (currentPage - 1) * rowsPerPage;
-    final pageItems = filteredUsers.sublist(
+    final pageItems = filteredPromoCodes.sublist(
       start,
-      (start + rowsPerPage).clamp(0, filteredUsers.length),
+      (start + rowsPerPage).clamp(0, filteredPromoCodes.length),
     );
 
     return Container(
       color: AppColor.bgColor,
+      // height: double.infinity,
       child: Column(
         children: [
           AppBarWidgets(),
@@ -109,13 +123,13 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppText(
-                                "Manage Events",
+                                "Promo Code",
                                 fontSize: 28,
                                 fontWeight: FontWeight.w500,
                                 color: AppColor.textColor,
                               ),
                               AppText(
-                                "Manage Events",
+                                "Manage all the Promo Codes",
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: AppColor.black,
@@ -136,7 +150,7 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                                   size: 22,
                                 ),
                                 AppText(
-                                  "Create New Event",
+                                  "Add New Code",
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.whiteColor,
@@ -187,14 +201,13 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                                       ),
                                     ),
                                     Spacer(),
-
-                                    Expanded(
+                                    SizedBox(
+                                      width: 185,
                                       child: AppTextfield(
-                                        width: 85,
                                         ctr: TextEditingController(),
                                         hint: 'Custom',
                                         filledColor: AppColor.filledColor,
-                                        prefixIcon: Padding(
+                                        suffixIcon: Padding(
                                           padding: const EdgeInsets.all(10),
                                           child: SvgPicture.asset(
                                             AppIcons.customCalender,
@@ -234,34 +247,34 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                                       child: TableHeader("Title"),
                                     ),
                                     Expanded(
-                                      flex: 3,
-                                      child: TableHeader("Phone Number"),
+                                      flex: 2,
+                                      child: TableHeader("Code"),
                                     ),
                                     Expanded(
                                       flex: 2,
                                       child: TableHeader(
-                                        "Date",
+                                        "Generation Date",
                                         sortable: true,
                                       ),
                                     ),
                                     Expanded(
                                       flex: 2,
                                       child: TableHeader(
-                                        "Category",
+                                        "Valid Until",
                                         sortable: true,
                                       ),
                                     ),
                                     Expanded(
                                       flex: 2,
                                       child: TableHeader(
-                                        "Payment",
+                                        "Discount",
                                         sortable: true,
                                       ),
                                     ),
                                     Expanded(
                                       flex: 2,
                                       child: TableHeader(
-                                        "Status ",
+                                        "Status",
                                         sortable: true,
                                       ),
                                     ),
@@ -276,9 +289,9 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                                 child: ListView.builder(
                                   itemCount: pageItems.length,
                                   itemBuilder: (context, index) {
-                                    return EventTableRow(
-                                      index: index,
-                                      event: pageItems[index],
+                                    return PromoTableRow(
+                                      isEven: index.isEven,
+                                      promo: pageItems[index],
                                       onMorePressed: () {},
                                       // onTap: () {
                                       //   // final sidebarState = context
@@ -307,7 +320,7 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
                         child: AppPagination(
                           currentPage: currentPage,
                           totalPages: totalPages,
-                          totalItems: filteredUsers.length,
+                          totalItems: filteredPromoCodes.length,
                           pageSize: rowsPerPage,
                           onPageChanged: (page) {
                             setState(() {
@@ -327,3 +340,6 @@ class _ManageEventsPageState extends State<ManageEventsPage> {
     );
   }
 }
+
+
+
