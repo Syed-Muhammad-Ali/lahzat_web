@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:lahzat_web/views/widgets/app_sidebar.dart';
+import 'package:lahzat_web/views/pages/sideBar/sideBar_page.dart';
 
 void main() {
   runApp(const MyApp());

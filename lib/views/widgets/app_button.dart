@@ -1,50 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../constants/colors.dart';
+import 'package:lahzat_web/views/widgets/app_text.dart';
 
 class AppButton extends StatelessWidget {
-  final Function()? onPressed;
-  final String? text;
-  final FontWeight? weight;
-  final double? height;
-  final double? width;
-  final double? borderradius;
+  Color? txtClr;
+  String? label;
+  VoidCallback? ontap;
+  Row? rowElements;
+  double? height;
+  double? width;
+  double? txtSize;
+  double? radius;
+  FontWeight? weight;
+  EdgeInsets? padding;
   final Color? backgroundColor;
-  final Color? bordercolor;
-  final Color? textcolor;
+  final Gradient? gradient;
+  bool loading;
+  final Border? border;
+  final List<BoxShadow>? boxShadow;
 
-  const AppButton({
+  AppButton({
     super.key,
-    this.text,
-    this.weight,
-    this.onPressed,
+    this.label,
+    this.ontap,
+    this.rowElements,
+    this.txtClr,
     this.height,
+    this.radius,
     this.width,
-    this.borderradius,
+    this.txtSize = 18,
+    this.weight,
+    this.padding,
     this.backgroundColor,
-    this.bordercolor,
-    this.textcolor,
+    this.gradient,
+    this.loading = false,
+    this.border,
+    this.boxShadow,
   });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      height: height ?? 48,
-      minWidth: width ?? double.infinity,
-      onPressed: onPressed,
-      color: backgroundColor ?? AppColor.primaryColor,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: bordercolor ?? Colors.transparent),
-        borderRadius: BorderRadius.circular(borderradius ?? 8),
-      ),
-      child: Text(
-        text ?? '',
-        style: GoogleFonts.poppins(
-          fontSize: context.width * 0.035,
-          fontWeight: weight ?? FontWeight.w400,
-          color: textcolor ?? AppColor.whiteColor,
+    return GestureDetector(
+      onTap: ontap,
+      child: Container(
+        height: height ?? 46,
+        width: width ?? Get.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius ?? 12),
+          color: backgroundColor,
+          gradient: gradient,
+          border: border,
+          boxShadow: boxShadow,
+        ),
+        child: Center(
+          child:
+              // loading
+              //     ? Center(
+              //         child: SleekCircularSlider(
+              //           appearance: CircularSliderAppearance(
+              //             spinnerMode: true,
+              //             customColors: CustomSliderColors(
+              //               trackColor: AppColors.grey,
+              //               progressBarColor: AppColors.white,
+              //               shadowColor: AppColors.white,
+              //               shadowMaxOpacity: 0.5,
+              //             ),
+              //             size: 30,
+              //           ),
+              //         ),
+              //       )
+              //     :
+              rowElements ??
+              AppText(
+                label ?? "",
+                textAlign: TextAlign.center,
+                textOverflow: TextOverflow.ellipsis,
+                color: txtClr ?? Colors.white,
+                fontSize: txtSize,
+                fontWeight: weight ?? FontWeight.w500,
+              ),
         ),
       ),
     );

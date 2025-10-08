@@ -1,10 +1,14 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/constants/icons.dart';
 import 'package:lahzat_web/constants/images.dart';
 import 'package:lahzat_web/views/pages/dashboard/dashboard_page.dart';
-import '../../constants/colors.dart';
-import 'app_text.dart';
+import 'package:lahzat_web/views/pages/manage_events/manage_events_page.dart';
+import 'package:lahzat_web/views/pages/promo_code/promo_code_page.dart';
+import 'package:lahzat_web/views/widgets/app_text.dart';
 
 class SidebarPage extends StatefulWidget {
   const SidebarPage({super.key});
@@ -14,14 +18,23 @@ class SidebarPage extends StatefulWidget {
 }
 
 class _SidebarPageState extends State<SidebarPage> {
-  final _pages = [
-    Expanded(child: DashboardPage()),
-    const Center(child: Text("Management")),
-    const Center(child: Text("Promo Code")),
-  ];
+  final _pages = [DashboardPage(), ManageEventsPage(), PromoCodePage()];
 
   int selectedIndex = 0;
-  bool isCollapsed = false; // for tablet sidebar toggle
+  bool isCollapsed = false;
+  Widget? childPage;
+
+  void openChildPage(Widget page) {
+    setState(() {
+      childPage = page;
+    });
+  }
+
+  void closeChildPage() {
+    setState(() {
+      childPage = null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,25 +138,31 @@ class _SidebarPageState extends State<SidebarPage> {
       backgroundColor: AppColor.whiteColor,
       body: Row(
         children: [
-          Container(
-            width: 250,
-            decoration: BoxDecoration(
-              color: AppColor.primaryColor,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomRight: Radius.circular(12),
+          Expanded(
+            flex: 1,
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColor.primaryColor,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
               ),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-            child: Column(
-              children: [
-                Expanded(child: _buildSidebarContent(context)),
-                _buildLogoutButton(isCollapsed: false),
-              ],
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+              child: Column(
+                children: [
+                  Expanded(child: _buildSidebarContent(context)),
+                  _buildLogoutButton(isCollapsed: false),
+                ],
+              ),
             ),
           ),
           Expanded(
-            child: Container(color: Colors.white, child: _pages[selectedIndex]),
+            flex: 5,
+            child: Container(
+              color: Colors.white,
+              child: childPage ?? _pages[selectedIndex],
+            ),
           ),
         ],
       ),
@@ -229,6 +248,7 @@ class _SidebarPageState extends State<SidebarPage> {
     bool isDrawer,
     bool isCollapsed,
   ) {
+    final isSelected = selectedIndex == index && childPage == null;
     return InkWell(
       onTap: () {
         setState(() {
@@ -239,9 +259,9 @@ class _SidebarPageState extends State<SidebarPage> {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 6),
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-        decoration: index == selectedIndex
+        decoration: isSelected
             ? BoxDecoration(
-                color: AppColor.whiteColor.withOpacity(0.2),
+                color: AppColor.whiteColor,
                 borderRadius: BorderRadius.circular(8),
               )
             : null,
@@ -252,13 +272,18 @@ class _SidebarPageState extends State<SidebarPage> {
           children: [
             SvgPicture.asset(
               icon,
-              color: AppColor.whiteColor,
+              color: isSelected ? AppColor.primaryColor : AppColor.whiteColor,
               height: 20,
               width: 20,
             ),
             if (!isCollapsed) ...[
               const SizedBox(width: 12),
-              AppText(title, color: AppColor.whiteColor, fontSize: 13),
+              AppText(
+                title,
+                color: isSelected ? AppColor.primaryColor : AppColor.whiteColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
             ],
           ],
         ),
@@ -274,7 +299,7 @@ class _SidebarPageState extends State<SidebarPage> {
         margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
+          color: Colors.white.withOpacity(0.20),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(

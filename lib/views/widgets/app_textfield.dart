@@ -5,8 +5,6 @@ import 'package:lahzat_web/views/widgets/app_text.dart';
 
 import '../../constants/colors.dart';
 
-//common textfield
-
 class AppTextfield extends StatefulWidget {
   Widget? prefixIcon;
   Widget? suffixIcon;
@@ -38,6 +36,7 @@ class AppTextfield extends StatefulWidget {
   double? titleSize;
   TextCapitalization? textCapitalization;
   bool? useCountFormater;
+  bool showStar; 
 
   AppTextfield({
     super.key,
@@ -71,6 +70,7 @@ class AppTextfield extends StatefulWidget {
     this.title,
     this.titleColor,
     this.titleSize,
+    this.showStar = false, // 🔹 default false
   });
 
   @override
@@ -79,7 +79,6 @@ class AppTextfield extends StatefulWidget {
 
 class _AppTextfieldState extends State<AppTextfield> {
   bool isObscure = true;
-
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -89,28 +88,42 @@ class _AppTextfieldState extends State<AppTextfield> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText(
-            widget.title ?? '',
-            fontSize: widget.titleSize ?? 14,
-            fontWeight: FontWeight.w500,
-            color: widget.titleColor ?? Color(0xff999999),
-          ),
+          if (widget.title != null && widget.title!.isNotEmpty)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AppText(
+                  widget.title ?? '',
+                  fontSize: widget.titleSize ?? 14,
+                  fontWeight: FontWeight.w500,
+                  color: widget.titleColor ?? const Color(0xff999999),
+                ),
+                if (widget.showStar) ...[
+                  const SizedBox(width: 2),
+                  const Text(
+                    '*',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ],
+            ),
           SizedBox(height: widget.title != null ? 4 : 0),
+
+          // 🔹 TextField
           SizedBox(
             height: widget.height,
             child: TextFormField(
               onTapOutside: (event) {
                 if (widget.hideKeyboard) {
                   _focusNode.unfocus();
-                  // FocusScope.of(context).unfocus();
                 }
               },
               inputFormatters: (widget.useCountFormater ?? false)
-                  ? [
-                      FilteringTextInputFormatter.allow(
-                        RegExp(r'[\d.]'),
-                      ), // Allow only digits and period
-                    ]
+                  ? [FilteringTextInputFormatter.allow(RegExp(r'[\d.]'))]
                   : null,
               focusNode: widget.focusNode ?? _focusNode,
               onChanged: widget.onchanged ?? (value) {},
@@ -126,14 +139,14 @@ class _AppTextfieldState extends State<AppTextfield> {
               obscureText: widget.isPasswordField ? isObscure : false,
               obscuringCharacter: '*',
               validator: widget.validator,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xff999999),
                 fontWeight: FontWeight.w500,
                 fontSize: 16,
               ),
               decoration: InputDecoration(
                 labelText: widget.labelText,
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   color: Color(0xff999999),
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
@@ -145,7 +158,7 @@ class _AppTextfieldState extends State<AppTextfield> {
                   4,
                 ),
                 counterText: '',
-                filled: widget.isUnderlined ? false : true,
+                filled: !widget.isUnderlined,
                 fillColor: widget.isUnderlined
                     ? null
                     : (widget.filledColor ?? Colors.white.withOpacity(.3)),
@@ -172,13 +185,13 @@ class _AppTextfieldState extends State<AppTextfield> {
                               ? Icons.visibility_outlined
                               : Icons.visibility_off_outlined,
                           size: 20,
-                          color: Color(0xff999999),
+                          color: const Color(0xff999999),
                         ),
                       )
                     : widget.suffixIcon,
-                errorStyle: TextStyle(fontSize: 14, color: Colors.red),
+                errorStyle: const TextStyle(fontSize: 14, color: Colors.red),
                 hintText: widget.hint,
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   color: Color(0xff999999),
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
@@ -186,13 +199,13 @@ class _AppTextfieldState extends State<AppTextfield> {
                 focusedBorder: border(
                   widget.borderColor ?? AppColor.primaryColor,
                 ),
-                errorBorder: border(widget.borderColor ?? Color(0xff999999)),
+                errorBorder: border(
+                  widget.borderColor ?? const Color(0xff999999),
+                ),
                 enabledBorder: border(
-                  widget.borderColor ?? widget.borderColor ?? Color(0xff999999),
+                  widget.borderColor ?? const Color(0xff999999),
                 ),
-                border: border(
-                  widget.borderColor ?? widget.borderColor ?? Color(0xff999999),
-                ),
+                border: border(widget.borderColor ?? const Color(0xff999999)),
               ),
             ),
           ),
@@ -203,7 +216,7 @@ class _AppTextfieldState extends State<AppTextfield> {
 
   InputBorder border(Color color) {
     return widget.isUnderlined
-        ? UnderlineInputBorder(
+        ? const UnderlineInputBorder(
             borderSide: BorderSide(color: Color(0xff999999), width: 1.0),
           )
         : OutlineInputBorder(

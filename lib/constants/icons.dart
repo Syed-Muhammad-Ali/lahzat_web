@@ -11,4 +11,5 @@ class AppIcons {
   static const String cancel = 'assets/icons/cancel.svg';
   static const String downArrow = 'assets/icons/downArrow.svg';
   static const String add = 'assets/icons/add.svg';
+  static const String customCalender = 'assets/icons/custom_calender.svg';
 }

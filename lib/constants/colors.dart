@@ -12,4 +12,9 @@ class AppColor {
   static const redColor = Color(0xFFE94235);
   static const lightgreen = Color(0xFF638682);
   static const ffc7c7c = Color(0xFFC7C7C7);
+  static const textColor = Color(0xFF27292C);
+  static const black = Color(0xFF000000);
+  static const darkYellow = Color(0xFFF39F1E);
+  static const darkred = Color(0xFFFF1100);
+  static const filledColor = Color(0xFFEBEBEB);
 }

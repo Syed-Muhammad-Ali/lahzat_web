@@ -46,7 +46,9 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lahzat_web/constants/colors.dart';
 
 class AppText extends StatelessWidget {
   const AppText(
@@ -106,6 +108,53 @@ class AppText extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+// Sub Handoing Text
+
+class SubHeadingText extends StatelessWidget {
+  final String title;
+  final Color? color;
+  final double? fontSize;
+
+  const SubHeadingText(this.title, {super.key, this.color, this.fontSize});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppText(
+      title,
+      fontSize: fontSize ?? 14,
+      fontWeight: FontWeight.w400,
+      color: color ?? AppColor.black,
+    );
+  }
+}
+
+// Table Header Text
+
+class TableHeader extends StatelessWidget {
+  final String title;
+  final bool sortable;
+
+  const TableHeader(this.title, {super.key, this.sortable = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        AppText(
+          title,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Color(0xff222222),
+        ),
+        if (sortable) ...[
+          const SizedBox(width: 4),
+          SvgPicture.asset("assets/icons/more.svg", width: 14, height: 14),
+        ],
+      ],
     );
   }
 }
