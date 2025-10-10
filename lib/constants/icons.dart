@@ -15,4 +15,5 @@ class AppIcons {
   static const String calender = 'assets/icons/calender.svg';
   static const String clock = 'assets/icons/clock.svg';
   static const String upload = 'assets/icons/upload.svg';
+  static const String google = 'assets/icons/google.svg';
 }
