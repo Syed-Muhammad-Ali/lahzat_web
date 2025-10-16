@@ -1,11 +1,11 @@
-// ignore_for_file: unused_local_variable, deprecated_member_use
+// ignore_for_file: unused_local_variable, deprecated_member_use, unused_element
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/constants/icons.dart';
-import 'package:lahzat_web/constants/images.dart';
-import 'package:lahzat_web/views/pages/sideBar/sideBar_page.dart';
+import 'package:lahzat_web/views/pages/payment_info/payment_info_page.dart';
 import 'package:lahzat_web/views/widgets/app_button.dart';
 import 'package:lahzat_web/views/widgets/app_container.dart';
 import 'package:lahzat_web/views/widgets/app_text.dart';
@@ -13,6 +13,7 @@ import 'package:lahzat_web/views/widgets/app_textfield.dart';
 import 'package:lahzat_web/views/widgets/confirmation_popup.dart';
 import 'package:lahzat_web/views/widgets/custom_dialog_box.dart';
 import 'package:lahzat_web/views/widgets/custom_phone_text_field.dart';
+import 'package:lahzat_web/views/widgets/extension_sizebox.dart';
 import 'package:lahzat_web/views/widgets/image_picker_container.dart';
 import 'package:lahzat_web/views/widgets/language_toggle.dart';
 import 'package:lahzat_web/views/widgets/photo_selctor.dart';
@@ -44,38 +45,31 @@ class CreateNewEventPage extends StatelessWidget {
                   /// ---------- HEADER ----------
                   AppBarWidgets(),
 
-                  const SizedBox(height: 20),
-                  IconButton(
-                    onPressed: () {
-                      final sidebarState = context
-                          .findAncestorStateOfType<SidebarPageState>();
-                      if (sidebarState != null) {
-                        sidebarState.closeChildPage();
-                        sidebarState.selectedIndex = 1;
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                      size: 28,
-                    ),
-                  ),
-
                   /// ---------- PAGE TITLE ----------
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 80,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AppText(
-                          'Create Event',
-                          fontSize: 28,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.black,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(AppIcons.backButton),
+                            1.wSpace(context),
+                            AppText(
+                              'Create Event',
+                              fontSize: 28,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.black,
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 5),
+                        0.5.hSpace(context),
                         AppText(
-                          "Let’s create a new event.",
+                          "            Let’s create a new event.",
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color: AppColor.black.withOpacity(0.7),
@@ -83,12 +77,11 @@ class CreateNewEventPage extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 20),
 
                   /// ---------- MAIN CONTAINER ----------
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 120),
                     child: AppContainer(
                       width: double.infinity,
                       child: Padding(
@@ -138,7 +131,7 @@ class CreateNewEventPage extends StatelessWidget {
                                       Expanded(
                                         child: AppButton(
                                           ontap: () {
-                                            ConfirmationPopup(context);
+                                            Get.to(() => PaymentInfoPage());
                                           },
                                           label: 'Create Event',
                                           bgColor: AppColor.primaryColor,
@@ -210,63 +203,63 @@ class CreateNewEventPage extends StatelessWidget {
     );
   }
 
-  /// ---------- HEADER ----------
-  Widget _buildHeader(bool isMobile) {
-    return Container(
-      height: 89,
-      width: double.infinity,
-      alignment: Alignment.center,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          bottom: BorderSide(color: AppColor.primaryColor, width: 1),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (!isMobile) const Spacer(flex: 2),
+  // /// ---------- HEADER ----------
+  // Widget _buildHeader(bool isMobile) {
+  //   return Container(
+  //     height: 89,
+  //     width: double.infinity,
+  //     alignment: Alignment.center,
+  //     decoration: const BoxDecoration(
+  //       color: Colors.white,
+  //       border: Border(
+  //         bottom: BorderSide(color: AppColor.primaryColor, width: 1),
+  //       ),
+  //     ),
+  //     padding: const EdgeInsets.symmetric(horizontal: 20),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         if (!isMobile) const Spacer(flex: 2),
 
-          /// Search Field
-          Expanded(
-            flex: isMobile ? 8 : 5,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                AppTextfield(
-                  ctr: TextEditingController(),
-                  hint: 'Search',
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SvgPicture.asset(
-                      AppIcons.search,
-                      color: Colors.black,
-                      height: 20,
-                      width: 20,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+  //         /// Search Field
+  //         Expanded(
+  //           flex: isMobile ? 8 : 5,
+  //           child: Column(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             children: [
+  //               AppTextfield(
+  //                 ctr: TextEditingController(),
+  //                 hint: 'Search',
+  //                 suffixIcon: Padding(
+  //                   padding: const EdgeInsets.all(10),
+  //                   child: SvgPicture.asset(
+  //                     AppIcons.search,
+  //                     color: Colors.black,
+  //                     height: 20,
+  //                     width: 20,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
 
-          if (!isMobile) const Spacer(flex: 3),
+  //         if (!isMobile) const Spacer(flex: 3),
 
-          /// Profile Picture
-          Container(
-            height: 45,
-            width: 45,
-            margin: EdgeInsets.only(left: isMobile ? 12 : 0),
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: Image.asset(Appimage.p1, fit: BoxFit.cover),
-          ),
-        ],
-      ),
-    );
-  }
+  //         /// Profile Picture
+  //         Container(
+  //           height: 45,
+  //           width: 45,
+  //           margin: EdgeInsets.only(left: isMobile ? 12 : 0),
+  //           clipBehavior: Clip.antiAlias,
+  //           decoration: const BoxDecoration(shape: BoxShape.circle),
+  //           child: Image.asset(Appimage.p1, fit: BoxFit.cover),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   /// ---------- LEFT COLUMN ----------
   Widget _buildLeftForm() {

@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/constants/icons.dart';
 import 'package:lahzat_web/constants/images.dart';
+import 'package:lahzat_web/constants/variables.dart';
 import 'package:lahzat_web/views/pages/dashboard/dashboard_page.dart';
 import 'package:lahzat_web/views/pages/manage_events/manage_events_page.dart';
 import 'package:lahzat_web/views/pages/promo_code/promo_code_page.dart';
@@ -201,42 +202,105 @@ class SidebarPageState extends State<SidebarPage> {
     bool isCollapsed = false,
   }) {
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: isCollapsed
-            ? CrossAxisAlignment.center
-            : CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20),
+      child: Variables.flavour == 'admin'
+          ? Column(
+              crossAxisAlignment: isCollapsed
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
 
-          // 🖼️ Add your image / logo at the top
-          Center(
-            child: isCollapsed
-                ? Image.asset(
-                    Appimage.applogo, // your small icon for collapsed mode
-                    height: 120,
-                  )
-                : Column(
-                    children: [
-                      Image.asset(Appimage.applogo, height: 150),
-                      const SizedBox(height: 10),
-                    ],
-                  ),
-          ),
+                // 🖼️ Add your image / logo at the top
+                Center(
+                  child: isCollapsed
+                      ? Image.asset(
+                          Appimage
+                              .applogo, // your small icon for collapsed mode
+                          height: 120,
+                        )
+                      : Column(
+                          children: [
+                            Image.asset(Appimage.applogo, height: 150),
+                            const SizedBox(height: 10),
+                          ],
+                        ),
+                ),
 
-          const SizedBox(height: 30),
+                const SizedBox(height: 30),
 
-          // Your navigation items
-          sideBarTab(AppIcons.dBoard, "Dashboard", 0, isDrawer, isCollapsed),
-          sideBarTab(
-            AppIcons.product,
-            "Manage Events",
-            1,
-            isDrawer,
-            isCollapsed,
-          ),
-          sideBarTab(AppIcons.promo, "Promo Code", 2, isDrawer, isCollapsed),
-        ],
-      ),
+                // Your navigation items
+                sideBarTab(
+                  AppIcons.dBoard,
+                  "Dashboard",
+                  0,
+                  isDrawer,
+                  isCollapsed,
+                ),
+                sideBarTab(
+                  AppIcons.product,
+                  "Manage Events",
+                  1,
+                  isDrawer,
+                  isCollapsed,
+                ),
+                sideBarTab(
+                  AppIcons.promo,
+                  "Promo Code",
+                  2,
+                  isDrawer,
+                  isCollapsed,
+                ),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: isCollapsed
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+
+                // 🖼️ Add your image / logo at the top
+                Center(
+                  child: isCollapsed
+                      ? Image.asset(
+                          Appimage
+                              .applogo, // your small icon for collapsed mode
+                          height: 120,
+                        )
+                      : Column(
+                          children: [
+                            Image.asset(Appimage.applogo, height: 150),
+                            const SizedBox(height: 10),
+                          ],
+                        ),
+                ),
+
+                const SizedBox(height: 30),
+
+                // Your navigation items
+                sideBarTab(
+                  AppIcons.dBoard,
+                  "Dashboard",
+                  0,
+                  isDrawer,
+                  isCollapsed,
+                ),
+                sideBarTab(
+                  AppIcons.product,
+                  "Manage Events",
+                  1,
+                  isDrawer,
+                  isCollapsed,
+                ),
+                sideBarTab(
+                  AppIcons.promo,
+                  "Promo Code",
+                  2,
+                  isDrawer,
+                  isCollapsed,
+                ),
+              ],
+            ),
     );
   }
 
