@@ -20,4 +20,8 @@ class AppColor {
   static const filledColor = Color(0xFFEBEBEB);
   static const secondryTextColor = Color(0xFF797979);
   static const skyblue = Color(0xFFE8EDF2);
+  static const ffd9d9d9d = Color(0xFFD9D9D9);
+  static const ff979797 = Color(0xFF979797);
+  static const baseColor = Color(0xFFFEFEF6);
+  static const infoColor = Color(0xFFB8B8B8);
 }

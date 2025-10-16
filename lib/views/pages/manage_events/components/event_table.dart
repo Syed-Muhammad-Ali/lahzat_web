@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lahzat_web/constants/colors.dart';
 import 'package:lahzat_web/models/manage_event_model.dart';
 import 'package:lahzat_web/views/pages/create_new_event/create_new_event_page.dart';
